@@ -9,7 +9,7 @@
   "author": "developersera",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^2.6.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "chart.js": "^2.7.2",
