@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.7.4",
-    "moment": "^2.19.3",
+    "moment": "^2.29.4",
     "nodemon": "^1.12.5"
   }
 }
