@@ -1,0 +1,76 @@
+version: "1.0"
+
+project:
+  name: "book-store"
+  type: "monorepo"
+  language: "typescript"
+  framework: "angular"
+
+layers:
+  - name: "components"
+    paths:
+      - "client/src/app/**/*.component.ts"
+  - name: "services"
+    paths:
+      - "client/src/app/services/**"
+  - name: "models"
+    paths:
+      - "client/src/app/models/**"
+  - name: "server-routes"
+    paths:
+      - "server/routes/**"
+  - name: "server-models"
+    paths:
+      - "server/models/**"
+
+modules:
+  - name: "client"
+    paths: ["client/src/**"]
+    public_api: ["client/src/app/app.module.ts"]
+  - name: "server"
+    paths: ["server/**"]
+    public_api: ["server/app.js"]
+
+dependencies:
+  layer_enforcement: "strict"
+  rules:
+    - from: "client"
+      allow: []
+      deny: ["server"]
+    - from: "server"
+      allow: []
+      deny: ["client"]
+  banned_imports:
+    - pattern: "console.log"
+      message: "Use a proper logging library instead of console.log"
+      severity: "error"
+    - pattern: "lodash"
+      message: "Use native JS array methods instead of lodash"
+      severity: "error"
+    - pattern: "axios"
+      message: "Use Angular HttpClient instead of axios in client code"
+      severity: "error"
+      from: "client/src/**"
+    - pattern: "any"
+      message: "Avoid using 'any' type — use proper types or unknown"
+      severity: "warning"
+
+structure:
+  max_file_lines: 300
+  max_function_lines: 50
+  max_function_params: 4
+  anti_patterns:
+    - name: "god_class"
+      description: "Class has too many methods — split responsibilities"
+      threshold:
+        max_methods: 10
+      severity: "error"
+
+enforcement:
+  block_on:
+    - severity: "error"
+      threshold: 1
+  baseline:
+    enabled: false
+    file: ".praxis-baseline.json"
+    allow_new: false
